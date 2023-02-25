@@ -1,14 +1,17 @@
 'use strict';
 
 const http = require('https');
+const fs = require('fs')
 
-http.get('https://dinoipsum.com/api/?format=html&words=10&paragraphs=1',res => {
+http.get('https://dinoipsum.com/api/?format=html&words=10&paragraphs=10',res => {
     let text = '';
     res.on('data',chunk => {
         text += chunk;
     })
     res.on('end',() =>{
-        console.log(text);
+        fs.writeFile('lorem.html',text,()=>{
+            console.log('Arquivo pronto');
+        });
     });
 
 })
