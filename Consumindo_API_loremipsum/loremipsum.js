@@ -13,12 +13,13 @@ William Bruno, Dezembro de 2020 - Atualizado para es6
 
 const http = require('https');
 const fs = require('fs')
+const debug = require('debug')
 const fileName = String(process.argv[2]||'').replace(/[^a-z0-9\.]/gi,'');
 const quantityOfParagraphs = String(process.argv[3]||'').replace(/[^\d]/g,'');
 const USAGE = 'USO: node loremipsum.js{nomeArquivo} {quantidade de paragrafos}';
 
 if(!fileName || !quantityOfParagraphs){
-    return console.log(USAGE);
+    return debug(USAGE);
 }
 
 
@@ -29,13 +30,13 @@ http.get('https://dinoipsum.com/api/?format=html&words=10&paragraphs='+ quantity
     })
     res.on('end',() =>{
         fs.writeFile(fileName,text,()=>{
-            console.log('Arquivo '+ fileName +' pronto');
+            debug('Arquivo '+ fileName +' pronto');
         });
     });
 
 })
 .on('error',(e) =>{
-    console.log('Got error:'+ e.message);
+    debug('Got error:'+ e.message);
 });
 
 /* 
